@@ -2,9 +2,11 @@
 public class Game
 {
     private Map map;
+    private Robot robot;
 
     public Game(int width, int height, int robotX, int robotY) {
         this.map = new Map(width, height);
+        this.robot = new Robot(robotX, robotY);
     }
 
     public bool processInput(string? command) {
