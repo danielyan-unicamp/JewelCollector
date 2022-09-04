@@ -1,4 +1,4 @@
-public class Entity
+public abstract class Entity
 {
     public Position Position{ get; private set; }
 
