@@ -38,15 +38,22 @@ public class Robot : Entity
     public void GrabJewels(Map map) {
         Jewel[] jewels = map.TakeJewels(this.Position);
         foreach(Jewel jewel in jewels) {
-            this.bag[bagSize++] = jewel; 
+            if (jewel is Jewel) {
+                this.bag[bagSize++] = jewel;
+            }
         }
     }
 
     public string BagInfo() {
         int total = 0;
-        foreach (Jewel jewel in bag) {
-            total += jewel.GetValue();
+        for(int i = 0; i < bagSize; i++) {
+            total += bag[i].GetValue();
         }
         return $"Bag total items: {this.bagSize} | Bag total value: {total}";
+    }
+
+    public override string ToString()
+    {
+        return "ME";
     }
 }

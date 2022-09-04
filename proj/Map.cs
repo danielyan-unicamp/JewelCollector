@@ -22,7 +22,7 @@ public class Map
 
     public void Insert(Entity e) {
         this.grid[e.Position.X, e.Position.Y] = e;
-        if (e is Robot) latestPosition = e.Position;
+        if (e is Robot) latestPosition = new Position(e.Position.X, e.Position.Y);
     }
 
     public void Print(Robot robot, Jewel[] jewels) {
@@ -42,7 +42,7 @@ public class Map
 
         // Remove the robot from the map
         this.grid[latestPosition.X, latestPosition.Y] = new Empty(latestPosition.X, latestPosition.Y);
-        latestPosition = robot.Position;
+        latestPosition = new Position(robot.Position.X, robot.Position.Y);
         this.grid[robot.Position.X, robot.Position.Y] = robot;
 
     }
@@ -50,25 +50,36 @@ public class Map
     public Jewel[] TakeJewels(Position position) {
         Jewel[] jewels = new Jewel[4];
         int size = 0;
-        Entity up = grid[position.X, position.Y - 1];
-        Entity left = grid[position.X - 1, position.Y];
-        Entity down = grid[position.X, position.Y + 1];
-        Entity right = grid[position.X + 1, position.Y];
-        if (up is Jewel) {
-            jewels[size++] = (Jewel) up;
-            grid[position.X, position.Y - 1] = new Empty(position.X, position.Y - 1);
+        if (!(position + new Position(0, -1)).IsOutOfBounds(this.Width, this.Height)) {
+            Entity up = grid[position.X, position.Y - 1];
+
+            if (up is Jewel) {
+                jewels[size++] = (Jewel) up;
+                grid[position.X, position.Y - 1] = new Empty(position.X, position.Y - 1);
+            }
         }
-        if (left is Jewel) {
-            jewels[size++] = (Jewel) left;
-            grid[position.X - 1, position.Y] = new Empty(position.X - 1, position.Y);
+        if (!(position + new Position(-1, 0)).IsOutOfBounds(this.Width, this.Height)) {
+            Entity left = grid[position.X - 1, position.Y];
+
+            if (left is Jewel) {
+                jewels[size++] = (Jewel) left;
+                grid[position.X - 1, position.Y] = new Empty(position.X - 1, position.Y);
+            }
         }
-        if (down is Jewel) {
-            jewels[size++] = (Jewel) down;
-            grid[position.X, position.Y + 1] = new Empty(position.X, position.Y + 1);
+        if (!(position + new Position(0, 1)).IsOutOfBounds(this.Width, this.Height)) {
+            Entity down = grid[position.X, position.Y + 1];
+
+            if (down is Jewel) {
+                jewels[size++] = (Jewel) down;
+                grid[position.X, position.Y + 1] = new Empty(position.X, position.Y + 1);
+            }
         }
-        if (right is Jewel) {
-            jewels[size++] = (Jewel) right;
-            grid[position.X + 1, position.Y] = new Empty(position.X + 1, position.Y);
+        if (!(position + new Position(1, 0)).IsOutOfBounds(this.Width, this.Height)) {
+            Entity right = grid[position.X + 1, position.Y];
+            if (right is Jewel) {
+                jewels[size++] = (Jewel) right;
+                grid[position.X + 1, position.Y] = new Empty(position.X + 1, position.Y);
+            }
         }
         return jewels;
     }
