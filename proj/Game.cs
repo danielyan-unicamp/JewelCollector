@@ -38,6 +38,6 @@ public class Game
     }
 
     public void print() {
-        this.map.print();
+        this.map.print(this.robot);
     }
 }
