@@ -33,6 +33,9 @@ public class Map
             }
             Console.WriteLine();
         }
+
+        // Print UI
+        Console.WriteLine(robot.BagInfo());
     }
 
     public void Update(Robot robot) {

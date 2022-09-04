@@ -41,4 +41,12 @@ public class Robot : Entity
             this.bag[bagSize++] = jewel; 
         }
     }
+
+    public string BagInfo() {
+        int total = 0;
+        foreach (Jewel jewel in bag) {
+            total += jewel.GetValue();
+        }
+        return $"Bag total items: {this.bagSize} | Bag total value: {total}";
+    }
 }
