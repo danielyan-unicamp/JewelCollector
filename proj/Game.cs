@@ -16,13 +16,21 @@ public class Game
         } else if (command.Equals("quit")) {
             return false;
         } else if (command.Equals("w")) {
-            
+            if (this.robot.CanMoveUp(this.map)) {
+                this.robot.MoveUp();
+            }
         } else if (command.Equals("a")) {
-            
+            if (this.robot.CanMoveLeft(this.map)) {
+                this.robot.MoveLeft();
+            }
         } else if (command.Equals("s")) {
-            
+            if (this.robot.CanMoveDown(this.map)) {
+                this.robot.MoveDown();
+            }
         } else if (command.Equals("d")) {
-        
+            if (this.robot.CanMoveRight(this.map)) {
+                this.robot.MoveRight();
+            }
         } else if (command.Equals("g")) {
             
         }
