@@ -8,4 +8,8 @@ public class Green : Jewel
     {
         return "JG";
     }
+
+    public override int GetValue() {
+        return 50;
+    }
 }
