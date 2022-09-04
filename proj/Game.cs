@@ -46,7 +46,7 @@ public class Game
                 this.map.Update(this.robot);
             }
         } else if (command.Equals("g")) {
-            
+            this.robot.GrabJewels(this.map);
         }
         return true;
     }

@@ -1,6 +1,7 @@
 public class Robot : Entity
 {
-
+    private Jewel[] bag = new Jewel[100];
+    private int bagSize = 0;
     public Robot(int x, int y) : base(x, y) {
 
     }
@@ -32,5 +33,12 @@ public class Robot : Entity
     }
     public bool CanMoveRight(Map map) {
         return !this.IsOutOfMap(map, this.Position + new Position(1, 0));
+    }
+
+    public void GrabJewels(Map map) {
+        Jewel[] jewels = map.TakeJewels(this.Position);
+        foreach(Jewel jewel in jewels) {
+            this.bag[bagSize++] = jewel; 
+        }
     }
 }

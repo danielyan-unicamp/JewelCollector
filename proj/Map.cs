@@ -43,4 +43,30 @@ public class Map
         this.grid[robot.Position.X, robot.Position.Y] = robot;
 
     }
+
+    public Jewel[] TakeJewels(Position position) {
+        Jewel[] jewels = new Jewel[4];
+        int size = 0;
+        Entity up = grid[position.X, position.Y - 1];
+        Entity left = grid[position.X - 1, position.Y];
+        Entity down = grid[position.X, position.Y + 1];
+        Entity right = grid[position.X + 1, position.Y];
+        if (up is Jewel) {
+            jewels[size++] = (Jewel) up;
+            grid[position.X, position.Y - 1] = new Empty(position.X, position.Y - 1);
+        }
+        if (left is Jewel) {
+            jewels[size++] = (Jewel) left;
+            grid[position.X - 1, position.Y] = new Empty(position.X - 1, position.Y);
+        }
+        if (down is Jewel) {
+            jewels[size++] = (Jewel) down;
+            grid[position.X, position.Y + 1] = new Empty(position.X, position.Y + 1);
+        }
+        if (right is Jewel) {
+            jewels[size++] = (Jewel) right;
+            grid[position.X + 1, position.Y] = new Empty(position.X + 1, position.Y);
+        }
+        return jewels;
+    }
 }
