@@ -1,4 +1,4 @@
-public class Blue : Jewel
+public class Blue : Jewel, IRechargeable
 {
     public Blue(int x, int y): base(new Position(x, y)) {}
     
@@ -8,5 +8,9 @@ public class Blue : Jewel
     }
     public override int GetValue() {
         return 10;
+    }
+
+    new public void Interact(Robot robot) {
+        robot.AddHealth(5);
     }
 }

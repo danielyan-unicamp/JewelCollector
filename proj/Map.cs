@@ -10,6 +10,20 @@ public class Map
         this.grid.Set(this.robot.Position, this.robot);
     }
 
+    public void Interact(Robot robot) {
+
+        List<Entity> entities = this.grid.GetNearby(this.robot.Position);
+        foreach (Entity entity in entities) {
+            if (entity is ICollectable ic) {
+                this.grid.Set(entity.Position, null);
+                ic.Interact(robot);
+            }
+            if (entity is IRechargeable ir) {
+                ir.Interact(robot);
+            }
+        }
+    }
+
     public void Set(Position position, Entity? entity) {
         this.grid.Set(position, entity);
     }
@@ -36,6 +50,7 @@ public class Map
 
         // Print UI
         Console.WriteLine(this.robot.BagInfo());
+        Console.WriteLine(this.robot.HealthInfo());
     }
 
     public List<Jewel> TakeJewels(Position position) {

@@ -50,6 +50,11 @@ public class Game
                     break;
                 }
             }
+            if (this.robot.IsDead()) {
+                this.Print();
+                Console.WriteLine("Game Over!");
+                break;
+            }
         }
         while (keyinfo.Key != ConsoleKey.Escape);
     }
@@ -60,8 +65,7 @@ public class Game
     }
 
     public void GrabJewels() {
-        List<Jewel> jewels = map.TakeJewels(this.robot.Position);
-        this.robot.AddJewels(jewels);
+        map.Interact(this.robot);
     }
 
     private void MoveRobot(Position deltaPosition) {
