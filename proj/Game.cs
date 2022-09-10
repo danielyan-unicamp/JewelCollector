@@ -8,9 +8,12 @@ public class Game
         this.robot = new Robot(new Position(robotX, robotY));
         this.map = new Map(width, height, this.robot);
     }
-
-    public void Insert(Entity e) {
-        this.map.Insert(e);
+    /// <summary>
+    /// Insere uma Entity no jogo
+    /// </summary>
+    /// <param name="entity">A entidade a ser inserida</param>
+    public void Insert(Entity entity) {
+        this.map.Insert(entity);
     }
 
     public bool ProcessInput(string? command) {
@@ -41,7 +44,7 @@ public class Game
         this.robot.AddJewels(jewels);
     }
 
-    public void MoveRobot(Position deltaPosition) {
+    private void MoveRobot(Position deltaPosition) {
 
         Position nextPosition = this.robot.Position + deltaPosition;
         try {
