@@ -1,10 +1,15 @@
 public class Robot : Entity
 {
-    private Jewel[] bag = new Jewel[100];
-    private int bagSize = 0;
+    private List<Jewel> bag = new List<Jewel>();
     public Robot(int x, int y) : base(x, y) {}
     public Robot(Position position) : base(position) {}
 
+    public void MoveTo(Position newPosition) {
+        this.Position = newPosition;
+    }
+    public void Move(Position deltaPosition) {
+        this.Position.Add(deltaPosition);
+    }
 
     public void MoveUp() {
         this.Position.Add(0, -1);
@@ -20,20 +25,16 @@ public class Robot : Entity
     }
 
     public void GrabJewels(Map map) {
-        Jewel[] jewels = map.TakeJewels(this.Position);
-        foreach(Jewel jewel in jewels) {
-            if (jewel is Jewel) {
-                this.bag[bagSize++] = jewel;
-            }
-        }
+        List<Jewel> jewels = map.TakeJewels(this.Position);
+        this.bag.AddRange(jewels);
     }
 
     public string BagInfo() {
         int total = 0;
-        for(int i = 0; i < bagSize; i++) {
-            total += bag[i].GetValue();
+        foreach(Jewel j in bag) {
+            total += j.GetValue();
         }
-        return $"Bag total items: {this.bagSize} | Bag total value: {total}";
+        return $"Bag total items: {this.bag.Count} | Bag total value: {total}";
     }
 
     public override string ToString()

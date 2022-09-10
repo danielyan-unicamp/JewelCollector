@@ -9,7 +9,7 @@ public class Grid<T> where T : class
         this.grid = new T?[width, height];
     }
 
-    public void Set(Position position, T obj) {
+    public void Set(Position position, T? obj) {
         this.grid[position.X, position.Y] = obj;
     }
 
@@ -18,5 +18,17 @@ public class Grid<T> where T : class
     }
     public T? Get(int x, int y) {
         return this.grid[x, y];
+    }
+    public List<T> GetNearby(Position position) {
+        List<T> objs = new List<T>();
+
+        Position[] nearbyPositions = position.GetNearby();
+        foreach (Position p in nearbyPositions) {
+            if (!p.IsOutOfBounds(this.Width, this.Height)) {
+                T? obj = this.Get(p);
+                if (obj != null) objs.Add(obj);
+            }
+        }
+        return objs;
     }
 }
