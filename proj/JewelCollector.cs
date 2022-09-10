@@ -18,7 +18,6 @@ public class Config {
 public class JewelCollector {
 
     public static void Main() {
-        bool running = true;
 
         string jsonString = File.ReadAllText("config.json");
         Config gameConfig = JsonSerializer.Deserialize<Config>(jsonString)!;
@@ -32,11 +31,6 @@ public class JewelCollector {
                 if (e.type == "Water") game.Insert(new Water(e.x, e.y));
             }
         }
-        do {
-            game.Print();
-            Console.Write("Enter the command: ");
-            string? command = Console.ReadLine();
-            running = game.ProcessInput(command);
-        } while (running);
+        game.StartLoop();
     }
 }

@@ -16,27 +16,47 @@ public class Game
         this.map.Insert(entity);
     }
 
-    public bool ProcessInput(string? command) {
-        if (command == null) {
-            return true;
-        } else if (command.Equals("quit")) {
-            return false;
-        } else if (command.Equals("w")) {
-            this.MoveRobotUp();
-        } else if (command.Equals("a")) {
-            this.MoveRobotLeft();
-        } else if (command.Equals("s")) {
-            this.MoveRobotDown();
-        } else if (command.Equals("d")) {
-            this.MoveRobotRight();
-        } else if (command.Equals("g")) {
-            this.GrabJewels();
+    public void StartLoop() {
+
+        ConsoleKeyInfo keyinfo;
+        do
+        {
+            this.Print();
+            keyinfo = Console.ReadKey(true);
+            switch (keyinfo.Key) {
+                case ConsoleKey.W:
+                {
+                    this.MoveRobotUp();
+                    break;
+                }
+                case ConsoleKey.A:
+                {
+                    this.MoveRobotLeft();
+                    break;
+                }
+                case ConsoleKey.S:
+                {
+                    this.MoveRobotDown();
+                    break;
+                }
+                case ConsoleKey.D:
+                {
+                    this.MoveRobotRight();
+                    break;
+                }
+                case ConsoleKey.G:
+                {
+                    this.GrabJewels();
+                    break;
+                }
+            }
         }
-        return true;
+        while (keyinfo.Key != ConsoleKey.Escape);
     }
 
     public void Print() {
         this.map.Print();
+
     }
 
     public void GrabJewels() {

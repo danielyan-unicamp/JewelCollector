@@ -1,5 +1,4 @@
 
-using System.Collections.Generic;
 public class Position
 {
     public int X { get; private set; }
