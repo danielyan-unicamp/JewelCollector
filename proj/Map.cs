@@ -10,27 +10,13 @@ public class Map
         this.grid.Set(this.robot.Position, this.robot);
     }
 
-    public void MoveRobot(Position deltaPosition) {
+    public void Set(Position position, Entity? entity) {
+        this.grid.Set(position, entity);
+    }
 
-        Position nextPosition = this.robot.Position + deltaPosition;
+    public void CheckCollision(Position nextPosition) {
         if (nextPosition.IsOutOfBounds(this.Width, this.Height)) throw new OutOfBoundsException();
         if (this.grid.Get(nextPosition) != null) throw new CollisionException();
-        this.grid.Set(this.robot.Position, null);
-        this.robot.Move(deltaPosition);
-        this.grid.Set(this.robot.Position, this.robot);
-    }
-
-    public void MoveRobotUp() {
-        this.MoveRobot(new Position(-1, 0));
-    }
-    public void MoveRobotLeft() {
-        this.MoveRobot(new Position(0, -1));
-    }
-    public void MoveRobotDown() {
-        this.MoveRobot(new Position(1, 0));
-    }
-    public void MoveRobotRight() {
-        this.MoveRobot(new Position(0, 1));
     }
 
     public void Insert(Entity e) {
@@ -38,17 +24,14 @@ public class Map
     }
 
     public void Print() {
-        for (int i = 0; i < this.Height; i++) {
-            for (int j = 0; j < this.Width; j++) {
-                Entity? e = this.grid.Get(i, j);
-                if (e == null) {
-                    Console.Write("--");
-                } else {
-                    Console.Write(e);
-                } 
-                Console.Write(" ");
-            }
-            Console.WriteLine();
+        foreach ((Position, String) t in Position.LoopAll(this.Width, this.Height)) {
+            Entity? e = this.grid.Get(t.Item1);
+            if (e == null) {
+                Console.Write("--");
+            } else {
+                Console.Write(e);
+            } 
+            Console.Write(t.Item2);
         }
 
         // Print UI

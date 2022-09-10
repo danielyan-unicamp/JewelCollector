@@ -1,7 +1,6 @@
 public class Green : Jewel
 {
-    public Green(int x, int y): base(x, y) {}
-    public Green(Position position): base(position) {}
+    public Green(int x, int y): base(new Position(x, y)) {}
     
     public override string ToString()
     {

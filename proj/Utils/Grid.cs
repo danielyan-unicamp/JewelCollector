@@ -16,14 +16,9 @@ public class Grid<T> where T : class
     public T? Get(Position position) {
         return this.grid[position.X, position.Y];
     }
-    public T? Get(int x, int y) {
-        return this.grid[x, y];
-    }
     public List<T> GetNearby(Position position) {
         List<T> objs = new List<T>();
-
-        Position[] nearbyPositions = position.GetNearby();
-        foreach (Position p in nearbyPositions) {
+        foreach (Position p in position.GetNearby()) {
             if (!p.IsOutOfBounds(this.Width, this.Height)) {
                 T? obj = this.Get(p);
                 if (obj != null) objs.Add(obj);
