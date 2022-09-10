@@ -1,28 +1,60 @@
 public class Map
 {
-    private static string EMPTY_TILE = "--";
-    private static string ROBOT_TILE = "ME";
     public int Width { get; }
     public int Height { get; }
     private Entity[,] grid;
-    private Position latestPosition;
-    public Map(int width, int height) {
+    private Robot robot;
+    public Map(int width, int height, Robot robot) {
         this.Width = width;
         this.Height = height;
         this.grid = new Entity[100, 100];
-        
+        this.robot = robot;
         for (int i = 0; i < this.Height; i++) {
             for (int j = 0; j < this.Width; j++) {
                 this.grid[j, i] = new Empty(j, i);
+                if (this.robot.Position.Equals(new Position(j, i))) {
+                    this.grid[j, i] = this.robot;
+                }
             }
         }
-        latestPosition = new Position(-1, -1);
 
     }
+    public void MoveRobotUp() {
+        if ((this.robot.Position + new Position(0, -1)).IsOutOfBounds(this.Width, this.Height)) {
+            throw new OutOfBoundsException();
+        }
+        this.grid[this.robot.GetX(), this.robot.GetY()] = new Empty(this.robot.Position);
+        this.robot.MoveUp();
+        this.grid[this.robot.GetX(), this.robot.GetY()] = this.robot;
+    }
+    public void MoveRobotLeft() {
+        if ((this.robot.Position + new Position(-1, 0)).IsOutOfBounds(this.Width, this.Height)) {
+            throw new OutOfBoundsException();
+        }
+        this.grid[this.robot.GetX(), this.robot.GetY()] = new Empty(this.robot.Position);
+        this.robot.MoveLeft();
+        this.grid[this.robot.GetX(), this.robot.GetY()] = this.robot;
+    }
+    public void MoveRobotDown() {
 
+        if ((this.robot.Position + new Position(0, 1)).IsOutOfBounds(this.Width, this.Height)) {
+            throw new OutOfBoundsException();
+        }
+
+        this.grid[this.robot.GetX(), this.robot.GetY()] = new Empty(this.robot.Position);
+        this.robot.MoveDown();
+        this.grid[this.robot.GetX(), this.robot.GetY()] = this.robot;
+    }
+    public void MoveRobotRight() {
+        if ((this.robot.Position + new Position(1, 0)).IsOutOfBounds(this.Width, this.Height)) {
+            throw new OutOfBoundsException();
+        }
+        this.grid[this.robot.GetX(), this.robot.GetY()] = new Empty(this.robot.Position);
+        this.robot.MoveRight();
+        this.grid[this.robot.GetX(), this.robot.GetY()] = this.robot;
+    }
     public void Insert(Entity e) {
         this.grid[e.Position.X, e.Position.Y] = e;
-        if (e is Robot) latestPosition = new Position(e.Position.X, e.Position.Y);
     }
 
     public void Print(Robot robot, Jewel[] jewels) {
@@ -36,15 +68,6 @@ public class Map
 
         // Print UI
         Console.WriteLine(robot.BagInfo());
-    }
-
-    public void Update(Robot robot) {
-
-        // Remove the robot from the map
-        this.grid[latestPosition.X, latestPosition.Y] = new Empty(latestPosition.X, latestPosition.Y);
-        latestPosition = new Position(robot.Position.X, robot.Position.Y);
-        this.grid[robot.Position.X, robot.Position.Y] = robot;
-
     }
 
     public Jewel[] TakeJewels(Position position) {

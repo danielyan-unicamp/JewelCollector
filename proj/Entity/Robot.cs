@@ -2,9 +2,9 @@ public class Robot : Entity
 {
     private Jewel[] bag = new Jewel[100];
     private int bagSize = 0;
-    public Robot(int x, int y) : base(x, y) {
+    public Robot(int x, int y) : base(x, y) {}
+    public Robot(Position position) : base(position) {}
 
-    }
 
     public void MoveUp() {
         this.Position.Add(0, -1);

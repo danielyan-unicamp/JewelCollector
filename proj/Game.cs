@@ -8,9 +8,8 @@ public class Game
     private int jewelIndex;
 
     public Game(int width, int height, int robotX, int robotY) {
-        this.map = new Map(width, height);
         this.robot = new Robot(robotX, robotY);
-        this.map.Insert(this.robot);
+        this.map = new Map(width, height, this.robot);
         this.jewels = new Jewel[MAX_JEWEL];
     }
 
@@ -19,36 +18,26 @@ public class Game
         this.map.Insert(j);
     }
     public bool ProcessInput(string? command) {
-
-        if (command == null) {
+        try {
+            if (command == null) {
+                return true;
+            } else if (command.Equals("quit")) {
+                return false;
+            } else if (command.Equals("w")) {
+                this.map.MoveRobotUp();
+            } else if (command.Equals("a")) {
+                this.map.MoveRobotLeft();
+            } else if (command.Equals("s")) {
+                this.map.MoveRobotDown();
+            } else if (command.Equals("d")) {
+                this.map.MoveRobotRight();
+            } else if (command.Equals("g")) {
+                this.robot.GrabJewels(this.map);
+            }
             return true;
-        } else if (command.Equals("quit")) {
-            return false;
-        } else if (command.Equals("w")) {
-            if (this.robot.CanMoveUp(this.map)) {
-                this.robot.MoveUp();
-                this.map.Update(this.robot);
-                // this.map.update(this.robot, this.jewels);
-            }
-        } else if (command.Equals("a")) {
-            if (this.robot.CanMoveLeft(this.map)) {
-                this.robot.MoveLeft();
-                this.map.Update(this.robot);
-            }
-        } else if (command.Equals("s")) {
-            if (this.robot.CanMoveDown(this.map)) {
-                this.robot.MoveDown();
-                this.map.Update(this.robot);
-            }
-        } else if (command.Equals("d")) {
-            if (this.robot.CanMoveRight(this.map)) {
-                this.robot.MoveRight();
-                this.map.Update(this.robot);
-            }
-        } else if (command.Equals("g")) {
-            this.robot.GrabJewels(this.map);
+        } catch (OutOfBoundsException e){
+            return true;
         }
-        return true;
     }
 
     public void print() {
