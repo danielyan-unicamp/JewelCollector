@@ -32,7 +32,7 @@ public class Position
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                yield return (new Position(i, j), j == width - 1 ? "\n" : " ");
+                yield return (new Position(j, i), j == width - 1 ? "\n" : " ");
             }
         }
     }

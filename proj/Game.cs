@@ -82,15 +82,15 @@ public class Game
     }
 
     public void MoveRobotUp() {
-        this.MoveRobot(new Position(-1, 0));
-    }
-    public void MoveRobotLeft() {
         this.MoveRobot(new Position(0, -1));
     }
+    public void MoveRobotLeft() {
+        this.MoveRobot(new Position(-1, 0));
+    }
     public void MoveRobotDown() {
-        this.MoveRobot(new Position(1, 0));
+        this.MoveRobot(new Position(0, 1));
     }
     public void MoveRobotRight() {
-        this.MoveRobot(new Position(0, 1));
+        this.MoveRobot(new Position(1, 0));
     }
 }

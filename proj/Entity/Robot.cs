@@ -20,10 +20,6 @@ public class Robot : Entity
         return this.HealthPoints == 0;
     }
 
-    public void AddJewels(List<Jewel> jewels) {
-        this.bag.AddRange(jewels);
-    }
-
     public void AddToBag(ICollectable collectable) {
         this.bag.Add(collectable);
     }
