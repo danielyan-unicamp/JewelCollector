@@ -10,7 +10,6 @@ public class Map
         this.grid.Set(this.robot.Position, this.robot);
     }
 
-
     public void MoveRobot(Position deltaPosition) {
 
         Position nextPosition = this.robot.Position + deltaPosition;
@@ -22,16 +21,16 @@ public class Map
     }
 
     public void MoveRobotUp() {
-        this.MoveRobot(new Position(0, -1));
-    }
-    public void MoveRobotLeft() {
         this.MoveRobot(new Position(-1, 0));
     }
+    public void MoveRobotLeft() {
+        this.MoveRobot(new Position(0, -1));
+    }
     public void MoveRobotDown() {
-        this.MoveRobot(new Position(0, 1));
+        this.MoveRobot(new Position(1, 0));
     }
     public void MoveRobotRight() {
-        this.MoveRobot(new Position(1, 0));
+        this.MoveRobot(new Position(0, 1));
     }
 
     public void Insert(Entity e) {
@@ -41,7 +40,7 @@ public class Map
     public void Print() {
         for (int i = 0; i < this.Height; i++) {
             for (int j = 0; j < this.Width; j++) {
-                Entity? e = this.grid.Get(j, i);
+                Entity? e = this.grid.Get(i, j);
                 if (e == null) {
                     Console.Write("--");
                 } else {
@@ -58,6 +57,10 @@ public class Map
 
     public List<Jewel> TakeJewels(Position position) {
         List<Entity> entities = this.grid.GetNearby(position);
+        List<Jewel> jewels = entities.OfType<Jewel>().ToList();
+        foreach(Jewel j in jewels) {
+            this.grid.Set(j.Position, null);
+        }
         return entities.OfType<Jewel>().ToList();
     }
 }
