@@ -1,13 +1,15 @@
 public class Green : Jewel
 {
-    public Green(int x, int y): base(new Position(x, y)) {}
-    
+    public Green(int x, int y) : base(new Position(x, y)) { }
+    public Green(Position position) : base(position) { }
+
     public override string ToString()
     {
         return "JG";
     }
 
-    public override int GetValue() {
+    public override int GetValue()
+    {
         return 50;
     }
 }

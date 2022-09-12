@@ -1,6 +1,7 @@
 public class Blue : Jewel, IRechargeable
 {
     public Blue(int x, int y) : base(new Position(x, y)) { }
+    public Blue(Position position) : base(position) { }
 
     public override string ToString()
     {

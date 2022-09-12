@@ -10,6 +10,22 @@ public class Map
         Jewels = new List<Jewel>();
     }
 
+    private bool HasEntity(Position position)
+    {
+        return this.EntityGrid.Get(position) != null;
+    }
+
+    public Position GetEmptyPosition()
+    {
+        Random rnd = new Random();
+        Position position;
+        do
+        {
+            position = new Position(rnd.Next(Width), rnd.Next(Height));
+        } while (HasEntity(position));
+        return position;
+    }
+
     private void Set(Position position, Entity? entity)
     {
         EntityGrid.Set(position, entity);

@@ -36,6 +36,7 @@ public class JewelCollector
                 if (e.type == "Water") game.Insert(new Water(e.x, e.y));
             }
         }
+        // make it count the total of points
         game.StartLoop();
     }
 }

@@ -5,7 +5,7 @@ public class Robot : Entity
     private Game Game { get; }
     private int HealthPoints = 5;
     private List<ICollectable> Bag = new List<ICollectable>();
-    public Robot(Position position, Game game) : base(position)
+    public Robot(int robotX, int robotY, Game game) : base(new Position(robotX, robotY))
     {
         Game = game;
     }
@@ -13,34 +13,40 @@ public class Robot : Entity
     public event PositionChangedHandler? PositionChanged;
     public void OnKeyPress(ConsoleKey key)
     {
-        switch (key)
+        try
         {
-            case ConsoleKey.W:
-                {
-                    Move(new Position(0, -1));
-                    break;
-                }
-            case ConsoleKey.A:
-                {
-                    Move(new Position(-1, 0));
-                    break;
-                }
-            case ConsoleKey.S:
-                {
-                    Move(new Position(0, 1));
-                    break;
-                }
-            case ConsoleKey.D:
-                {
-                    Move(new Position(1, 0));
-                    break;
-                }
-            case ConsoleKey.G:
-                {
-                    Game.GrabJewels();
-                    break;
-                }
+            switch (key)
+            {
+                case ConsoleKey.W:
+                    {
+                        Move(new Position(0, -1));
+                        break;
+                    }
+                case ConsoleKey.A:
+                    {
+                        Move(new Position(-1, 0));
+                        break;
+                    }
+                case ConsoleKey.S:
+                    {
+                        Move(new Position(0, 1));
+                        break;
+                    }
+                case ConsoleKey.D:
+                    {
+                        Move(new Position(1, 0));
+                        break;
+                    }
+                case ConsoleKey.G:
+                    {
+                        Game.GrabJewels();
+                        break;
+                    }
+            }
+
         }
+        catch (OutOfBoundsException) { }
+        catch (CollisionException) { }
     }
 
 
