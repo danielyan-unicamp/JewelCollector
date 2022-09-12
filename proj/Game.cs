@@ -2,8 +2,8 @@
 public delegate void KeyPressedHandler(ConsoleKey key);
 public class Game
 {
-    private Map Map { get; }
-    private Robot Robot { get; }
+    private Map Map { get; set; }
+    private Robot Robot { get; set; }
 
     private event KeyPressedHandler KeyPressed;
 
@@ -15,6 +15,7 @@ public class Game
         Robot.PositionChanged += Map.UpdatePosition;
         KeyPressed += Robot.OnKeyPress;
     }
+
     /// <summary>
     /// Insere uma Entity no jogo
     /// </summary>
@@ -28,21 +29,36 @@ public class Game
     {
 
         ConsoleKeyInfo keyinfo;
+        Print();
+
         do
         {
-            Print();
             keyinfo = Console.ReadKey(true);
+            Print();
             KeyPressed(keyinfo.Key);
             if (Robot.IsDead())
             {
-                Print();
-                Console.WriteLine("Game Over!");
+                GameEnd();
+                break;
+            }
+            if (Map.IsCleared())
+            {
+                NewGame();
                 break;
             }
         }
         while (keyinfo.Key != ConsoleKey.Escape);
     }
 
+    public void GameEnd()
+    {
+        Console.WriteLine("Game Over!");
+    }
+    public void NewGame()
+    {
+        Console.WriteLine("Stage Completed!");
+
+    }
     public void Print()
     {
         Map.Print();

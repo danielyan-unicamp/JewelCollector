@@ -1,20 +1,26 @@
 public class Map
 {
-    private int Width { get => EntityGrid.Width; }
-    private int Height { get => EntityGrid.Height; }
+    public int Width { get => EntityGrid.Width; }
+    public int Height { get => EntityGrid.Height; }
     private Grid<Entity> EntityGrid;
+    private List<Jewel> Jewels { get; }
     public Map(int width, int height)
     {
         EntityGrid = new Grid<Entity>(width, height);
+        Jewels = new List<Jewel>();
     }
 
-    public void Set(Position position, Entity? entity)
+    private void Set(Position position, Entity? entity)
     {
         EntityGrid.Set(position, entity);
     }
-    public void Insert(Entity e)
+    public void Insert(Entity entity)
     {
-        Set(e.Position, e);
+        if (entity is Jewel jewel)
+        {
+            Jewels.Add(jewel);
+        }
+        Set(entity.Position, entity);
     }
 
     public void UpdatePosition(Position oldPosition, Position newPosition, Entity entity)
@@ -31,6 +37,7 @@ public class Map
             if (entity is ICollectable ic)
             {
                 Set(entity.Position, null);
+                if (entity is Jewel jewel) Jewels.Remove(jewel);
                 ic.Collect(robot);
             }
             if (entity is IRechargeable ir)
@@ -56,6 +63,11 @@ public class Map
             Console.Write(tuple.lineEnd);
         }
 
+    }
+
+    public bool IsCleared()
+    {
+        return !Jewels.Any();
     }
 
 }
