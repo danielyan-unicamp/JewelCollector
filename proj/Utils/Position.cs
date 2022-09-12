@@ -1,41 +1,44 @@
 
 public class Position
 {
-    public int X { get; private set; }
-    public int Y { get; private set; }
-    public Position(int x, int y) {
-        this.X = x;
-        this.Y = y;
+    public int X { get; }
+    public int Y { get; }
+    public Position(int x, int y)
+    {
+        X = x;
+        Y = y;
     }
 
-    public static Position operator +(Position a, Position b) {
+    public static Position operator +(Position a, Position b)
+    {
         return new Position(a.X + b.X, a.Y + b.Y);
     }
 
-    public bool Equals(Position other)
+
+    public bool IsOutOfBounds(int x, int y)
     {
-        return (X == other.X) && (Y == other.Y);
+        return X >= x || X < 0 || Y >= y || Y < 0;
     }
 
-    public bool IsOutOfBounds(int x, int y) {
-        return this.X >= x || this.X < 0 || this.Y >= y || this.Y < 0;
+    public IEnumerable<Position> GetNearby()
+    {
+        yield return new Position(X + 0, Y - 1);
+        yield return new Position(X - 1, Y + 0);
+        yield return new Position(X + 0, Y + 1);
+        yield return new Position(X + 1, Y + 0);
     }
 
-    public IEnumerable<Position> GetNearby() {
-        yield return new Position(this.X + 0, this.Y - 1);
-        yield return new Position(this.X - 1, this.Y + 0);
-        yield return new Position(this.X + 0, this.Y + 1);
-        yield return new Position(this.X + 1, this.Y + 0);
-    }
+    public static IEnumerable<(Position, string)> LoopAll(int width, int height)
+    {
 
-    public static IEnumerable<(Position, string)> LoopAll(int width, int height) {
-
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
+        for (int i = 0; i < height; i++)
+        {
+            for (int j = 0; j < width; j++)
+            {
                 yield return (new Position(j, i), j == width - 1 ? "\n" : " ");
             }
         }
     }
-    
+
 
 }

@@ -1,4 +1,4 @@
-public interface IRechargeable : IInteractable
+public interface IRechargeable
 {
-    new public void Interact(Robot robot);
+    public void Recharge(Robot robot);
 }

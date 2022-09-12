@@ -1,57 +1,41 @@
 
+public delegate void KeyPressedHandler(ConsoleKey key);
 public class Game
 {
-    private Map map;
-    private Robot robot;
+    private Map Map { get; }
+    private Robot Robot { get; }
 
-    public Game(int width, int height, int robotX, int robotY) {
-        this.robot = new Robot(new Position(robotX, robotY));
-        this.map = new Map(width, height, this.robot);
+    private event KeyPressedHandler KeyPressed;
+
+    public Game(int width, int height, int robotX, int robotY)
+    {
+        Robot = new Robot(new Position(robotX, robotY), this);
+        Map = new Map(width, height);
+        Map.Insert(Robot);
+        Robot.PositionChanged += Map.UpdatePosition;
+        KeyPressed += Robot.OnKeyPress;
     }
     /// <summary>
     /// Insere uma Entity no jogo
     /// </summary>
     /// <param name="entity">A entidade a ser inserida</param>
-    public void Insert(Entity entity) {
-        this.map.Insert(entity);
+    public void Insert(Entity entity)
+    {
+        Map.Insert(entity);
     }
 
-    public void StartLoop() {
+    public void StartLoop()
+    {
 
         ConsoleKeyInfo keyinfo;
         do
         {
-            this.Print();
+            Print();
             keyinfo = Console.ReadKey(true);
-            switch (keyinfo.Key) {
-                case ConsoleKey.W:
-                {
-                    this.MoveRobotUp();
-                    break;
-                }
-                case ConsoleKey.A:
-                {
-                    this.MoveRobotLeft();
-                    break;
-                }
-                case ConsoleKey.S:
-                {
-                    this.MoveRobotDown();
-                    break;
-                }
-                case ConsoleKey.D:
-                {
-                    this.MoveRobotRight();
-                    break;
-                }
-                case ConsoleKey.G:
-                {
-                    this.GrabJewels();
-                    break;
-                }
-            }
-            if (this.robot.IsDead()) {
-                this.Print();
+            KeyPressed(keyinfo.Key);
+            if (Robot.IsDead())
+            {
+                Print();
                 Console.WriteLine("Game Over!");
                 break;
             }
@@ -59,38 +43,23 @@ public class Game
         while (keyinfo.Key != ConsoleKey.Escape);
     }
 
-    public void Print() {
-        this.map.Print();
+    public void Print()
+    {
+        Map.Print();
+        Console.WriteLine(Robot.BagInfo());
+        Console.WriteLine(Robot.HealthInfo());
 
     }
 
-    public void GrabJewels() {
-        map.Interact(this.robot);
+    public void GrabJewels()
+    {
+        // Kinda weird
+        Map.Interact(Robot);
     }
 
-    private void MoveRobot(Position deltaPosition) {
-
-        Position nextPosition = this.robot.Position + deltaPosition;
-        try {
-            this.map.CheckCollision(nextPosition);
-            this.map.Set(this.robot.Position, null);
-            this.robot.Move(deltaPosition);
-            this.map.Set(this.robot.Position, this.robot);
-        } catch (OutOfBoundsException) {
-        } catch (CollisionException) {
-        }
+    public void CheckCollision(Position nextPosition)
+    {
+        Map.CheckCollision(nextPosition);
     }
 
-    public void MoveRobotUp() {
-        this.MoveRobot(new Position(0, -1));
-    }
-    public void MoveRobotLeft() {
-        this.MoveRobot(new Position(-1, 0));
-    }
-    public void MoveRobotDown() {
-        this.MoveRobot(new Position(0, 1));
-    }
-    public void MoveRobotRight() {
-        this.MoveRobot(new Position(1, 0));
-    }
 }

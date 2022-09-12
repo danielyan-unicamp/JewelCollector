@@ -1,4 +1,4 @@
-public interface ICollectable : IInteractable
+public interface ICollectable
 {
-    new public void Interact(Robot robot);
+    public void Collect(Robot robot);
 }
